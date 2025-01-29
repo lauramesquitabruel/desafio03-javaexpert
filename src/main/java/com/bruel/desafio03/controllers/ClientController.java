@@ -2,6 +2,7 @@ package com.bruel.desafio03.controllers;
 
 import com.bruel.desafio03.dtos.ClientDTO;
 import com.bruel.desafio03.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class ClientController {
     }
 
     @PostMapping()
-    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO clientDto){
+    public ResponseEntity<ClientDTO> insert(@Valid @RequestBody ClientDTO clientDto){
         clientDto = service.insert(clientDto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -42,7 +43,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO clientDto){
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDto){
         clientDto = service.update(id, clientDto);
         return ResponseEntity.ok(clientDto);
     }
