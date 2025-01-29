@@ -27,4 +27,32 @@ public class ClientService {
         Page<Client> result = repository.findAll(pageable);
         return result.map(ClientDTO::new);
     }
+
+    @Transactional
+    public ClientDTO insert(ClientDTO clientDto){
+        Client client = new Client();
+        copyDtoToEntity(clientDto, client);
+
+        client = repository.save(client);
+
+        return new ClientDTO(client);
+    }
+
+    @Transactional
+    public ClientDTO update(Long id, ClientDTO clientDto){
+        Client client = repository.getReferenceById(id);
+        copyDtoToEntity(clientDto, client);
+
+        client = repository.save(client);
+
+        return new ClientDTO(client);
+    }
+
+    private void copyDtoToEntity(ClientDTO clientDto, Client entity){
+        entity.setName(clientDto.getName());
+        entity.setCpf(clientDto.getCpf());
+        entity.setIncome(clientDto.getIncome());
+        entity.setBirthDate(clientDto.getBirthDate());
+        entity.setChildren(clientDto.getChildren());
+    }
 }
